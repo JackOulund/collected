@@ -1,65 +1,122 @@
-import Image from "next/image";
+import Link from "next/link"
+import { buttonVariants } from "@/components/ui/button"
+import { MtgCard } from "@/components/MtgCard"
+import { cn } from "@/lib/utils"
 
-export default function Home() {
+const demoCards = [
+  {
+    id: "1",
+    title: "Candlelit Dinner",
+    description: "A night to remember — your choice of restaurant, my treat.",
+    flavorText: "Some moments are worth a thousand words.",
+    type: "Date Night",
+    color: "red" as const,
+    imageUrl: null,
+    power: "∞",
+    toughness: "∞",
+    status: "active" as const,
+  },
+  {
+    id: "2",
+    title: "Lazy Sunday",
+    description: "Breakfast in bed, movies, and zero responsibilities.",
+    flavorText: "The best adventures are the ones without a plan.",
+    type: "Treat",
+    color: "green" as const,
+    imageUrl: null,
+    power: "5",
+    toughness: "7",
+    status: "active" as const,
+  },
+  {
+    id: "3",
+    title: "Surprise Getaway",
+    description: "Pack a bag — I'll handle everything else.",
+    flavorText: "Trust is the most powerful spell.",
+    type: "Adventure",
+    color: "gold" as const,
+    imageUrl: null,
+    power: "9",
+    toughness: "9",
+    status: "active" as const,
+  },
+]
+
+export default function LandingPage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="flex flex-col min-h-screen">
+      {/* Hero */}
+      <section className="flex flex-col items-center justify-center text-center px-6 py-24 gap-8 bg-gradient-to-b from-zinc-900 to-zinc-950">
+        <div className="space-y-4 max-w-2xl">
+          <p className="text-amber-400 text-sm font-semibold tracking-widest uppercase">
+            Gift cards, reimagined
+          </p>
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+            Give experiences,
+            <br />
+            <span className="text-amber-400">not things.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-zinc-400 text-lg max-w-xl mx-auto">
+            Create beautiful MTG-style gift cards for the people you love.
+            Each card is a promise — a dinner, an adventure, a moment together.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+        <div className="flex gap-4 flex-wrap justify-center">
+          <Link
+            href="/auth/signup"
+            className={cn(buttonVariants({ size: "lg" }), "bg-amber-500 hover:bg-amber-400 text-black font-bold")}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Start gifting
+          </Link>
+          <Link href="/auth/signin" className={buttonVariants({ size: "lg", variant: "outline" })}>
+            Sign in
+          </Link>
         </div>
-      </main>
-    </div>
-  );
+      </section>
+
+      {/* Demo cards */}
+      <section className="py-20 px-6">
+        <h2 className="text-center text-2xl font-bold mb-12 text-zinc-300">
+          Every experience, a card
+        </h2>
+        <div className="flex flex-wrap gap-6 justify-center">
+          {demoCards.map((card, i) => (
+            <div
+              key={card.id}
+              className="transition-transform"
+              style={{ transform: `rotate(${(i - 1) * 4}deg)` }}
+            >
+              <MtgCard card={card} />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="py-20 px-6 bg-zinc-900/50">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-center text-2xl font-bold mb-12 text-zinc-300">How it works</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { step: "01", title: "Create a card", desc: "Design an MTG-style card for any experience — a dinner, a massage, a surprise trip." },
+              { step: "02", title: "Send it", desc: "Send it to someone you love, with an optional personal letter." },
+              { step: "03", title: "Play it", desc: "When they're ready, they play the card. You set a date. Together you make it happen." },
+            ].map(({ step, title, desc }) => (
+              <div key={step} className="space-y-3">
+                <span className="text-amber-400 text-4xl font-black">{step}</span>
+                <h3 className="text-lg font-bold">{title}</h3>
+                <p className="text-zinc-400 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <section className="py-16 px-6 text-center border-t border-zinc-800">
+        <p className="text-zinc-500 text-sm">Built with love. Free to use.</p>
+      </section>
+    </main>
+  )
 }
